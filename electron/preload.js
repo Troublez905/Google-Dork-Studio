@@ -1,0 +1,1 @@
+const { contextBridge, ipcRenderer } = require('electron');\ncontextBridge.exposeInMainWorld('electron', {\n  saveFile: (data) => ipcRenderer.invoke('save-file', data)\n});\n

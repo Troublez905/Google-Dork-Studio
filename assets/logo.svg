@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" role="img" aria-labelledby="title">
+<title id="title">Dorks VA logo</title>
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#ffd400"/><stop offset="1" stop-color="#ff9d00"/></linearGradient></defs>
+<rect width="64" height="64" rx="14" fill="#08090a"/>
+<path d="M17 18h25c8 0 13 5 13 13s-5 13-13 13H31l-7 8H13l9-11h18c3 0 5-2 5-5s-2-5-5-5H17z" fill="url(#g)"/>
+<path d="M18 25h13l-5 6H13z" fill="#fff"/>
+<text x="78" y="29" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="900" fill="#fff">DORKS</text>
+<text x="78" y="50" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="800" fill="#ffd400">VA</text>
+</svg>

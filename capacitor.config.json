@@ -1,0 +1,6 @@
+{
+  "appId": "com.troublez.googledorkstudio",
+  "appName": "Google Dork Studio",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}

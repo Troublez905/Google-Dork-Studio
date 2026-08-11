@@ -7,7 +7,14 @@
     "typecheck": "tsc --noEmit",
     "dev": "netlify dev --live",
     "start": "netlify dev",
-    "build": "echo \"Static site — ensure assets are present\""
+    "build": "echo \"Static site — ensure assets are present\"",
+    "electron:dev": "electron .",
+    "electron:package": "electron-builder --win --x64",
+    "capacitor:init": "npx @capacitor/cli init 'Google Dork Studio' com.troublez.googledorkstudio --web-dir=.",
+    "capacitor:add-android": "npx cap add android",
+    "capacitor:copy": "npx cap copy",
+    "capacitor:open-android": "npx cap open android",
+    "export:saved-queries": "node ./scripts/export-saved.js"
   },
   "dependencies": {
     "@netlify/blobs": "^10.0.10",

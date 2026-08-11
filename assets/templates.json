@@ -1,0 +1,54 @@
+{
+  "categories": {
+    "admin": {
+      "label": "Admin & Login Pages",
+      "templates": [
+        "site:{domain} inurl:admin",
+        "site:{domain} inurl:login",
+        "site:{domain} intitle:Login",
+        "site:{domain} inurl:dashboard",
+        "site:{domain} "admin""
+      ]
+    },
+    "files": {
+      "label": "Exposed Files",
+      "templates": [
+        "site:{domain} ext:env",
+        "site:{domain} ext:sql",
+        "site:{domain} ext:bak",
+        "site:{domain} ext:log",
+        "site:{domain} ("password" OR "secret" OR "api_key")"
+      ]
+    },
+    "cms": {
+      "label": "CMS & Common Paths",
+      "templates": [
+        "site:{domain} inurl:wp-admin",
+        "site:{domain} "Powered by" "WordPress"",
+        "site:{domain} inurl:phpmyadmin",
+        "site:{domain} inurl:wp-content/uploads",
+        "site:{domain} inurl:administrator"
+      ]
+    },
+    "auth": {
+      "label": "Authentication",
+      "templates": [
+        "site:{domain} "password reset"",
+        "site:{domain} "forgot password"",
+        "site:{domain} "reset_token"",
+        "site:{domain} intitle:"Sign In"",
+        "site:{domain} inurl:auth"
+      ]
+    },
+    "docs": {
+      "label": "Documentation & Keys",
+      "templates": [
+        "site:{domain} "API_KEY"",
+        "site:{domain} "confidential"",
+        "site:{domain} "internal use only"",
+        "site:{domain} "credentials"",
+        "site:{domain} "access token""
+      ]
+    }
+  }
+}
