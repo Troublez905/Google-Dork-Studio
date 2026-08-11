@@ -9,7 +9,7 @@ function alertLines(exposures: Exposure[]): string[] {
 }
 
 function dashboardUrl(): string {
-  return Netlify.env.get("DASHBOARD_URL") || "https://dorks-va-pro.netlify.app/dashboard.html";
+  return Netlify.env.get("DASHBOARD_URL") || "https://google-dork-studio.netlify.app/dashboard.html";
 }
 
 async function sendSlack(domain: string, exposures: Exposure[]): Promise<void> {

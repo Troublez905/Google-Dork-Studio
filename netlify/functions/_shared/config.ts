@@ -1,7 +1,7 @@
 import type { MonitorConfig, QueryDefinition } from "./types.js";
 
 export const DEFAULT_CONFIG: MonitorConfig = {
-  domain: "dorks-va-pro.netlify.app",
+  domain: "google-dork-studio.netlify.app",
   keywords: ["confidential", "internal use only", "restricted", "password", "secret", "api_key"],
   fileTypes: ["env", "sql", "bak", "old", "zip", "tar", "gz", "log", "yml", "yaml", "json"],
   adminPaths: ["admin", "administrator", "login", "dashboard", "wp-admin"],

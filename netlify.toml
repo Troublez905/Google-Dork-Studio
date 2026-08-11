@@ -30,15 +30,8 @@ for = "/assets/*"
 [headers.values]
   Cache-Control = "public, max-age=31536000, immutable"
 
-# SPA catch-all: rewrite unknown paths to index.html so client routing works
+# Function routes are declared in code and take precedence over this SPA fallback.
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Route API requests to functions if necessary (functions also declare path in code)
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = true

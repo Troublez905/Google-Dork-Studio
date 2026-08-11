@@ -1,27 +1,20 @@
 import type { Config } from "@netlify/functions";
-import { getResources, saveResources } from "./_shared/resources.js";
+import { getResources, isResourceItem, saveResources } from "./_shared/resources.js";
 
 export default async () => {
-  // Attempt to refresh resources from configured URL; getResources will fetch/store if needed
-  try {
+  const source = Netlify.env.get("RESOURCES_URL");
+  if (!source) {
     const items = await getResources();
-    // If getResources returned defaults and a RESOURCES_URL exists, try to fetch directly
-    const source = Netlify.env.get("RESOURCES_URL");
-    if (source) {
-      try {
-        const response = await fetch(source, { signal: AbortSignal.timeout(10000) });
-        if (response.ok) {
-          const parsed = await response.json();
-          if (Array.isArray(parsed) && parsed.length) await saveResources(parsed);
-        }
-      } catch (e) {
-        // ignore network errors
-      }
-    }
-    console.log(JSON.stringify({ event: "resources.refresh", items: Array.isArray(items) ? items.length : 0 }));
-  } catch (error) {
-    console.error(error);
+    console.log(JSON.stringify({ event: "resources.refresh", source: "defaults", items: items.length }));
+    return;
   }
+
+  const response = await fetch(source, { signal: AbortSignal.timeout(10000) });
+  if (!response.ok) throw new Error(`Resource feed returned HTTP ${response.status}.`);
+  const parsed: unknown = await response.json();
+  if (!Array.isArray(parsed) || !parsed.every(isResourceItem)) throw new Error("Resource feed contains invalid items.");
+  await saveResources(parsed);
+  console.log(JSON.stringify({ event: "resources.refresh", source: "remote", items: parsed.length }));
 };
 
 export const config: Config = { schedule: "0 8 * * *" };

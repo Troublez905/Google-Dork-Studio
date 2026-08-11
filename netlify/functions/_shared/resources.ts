@@ -1,10 +1,16 @@
-import type { MonitorState } from "./types.js";
 import { getStore } from "@netlify/blobs";
 
 const STORE_NAME = "dorks-va-monitor";
 const RESOURCES_KEY = "resources-v1";
 
 export type ResourceItem = { title: string; url: string; description?: string };
+
+export function isResourceItem(value: unknown): value is ResourceItem {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Record<string, unknown>;
+  return typeof item.title === "string" && typeof item.url === "string" &&
+    (item.description === undefined || typeof item.description === "string");
+}
 
 const DEFAULT_RESOURCES: ResourceItem[] = [
   { title: "Google Dork Cheat Sheet (common operators)", url: "https://example.com/dork-cheatsheet", description: "Common Google dork operators and examples." },
@@ -16,20 +22,15 @@ export async function getResources(): Promise<ResourceItem[]> {
   const fromStore = (await store.get(RESOURCES_KEY, { type: "json" }) as ResourceItem[] | null);
   if (fromStore && Array.isArray(fromStore) && fromStore.length) return fromStore;
 
-  // Attempt to fetch from configured URL
   const source = Netlify.env.get("RESOURCES_URL");
   if (source) {
-    try {
-      const response = await fetch(source, { signal: AbortSignal.timeout(10000) });
-      if (response.ok) {
-        const parsed = await response.json() as ResourceItem[];
-        if (Array.isArray(parsed) && parsed.length) {
-          await saveResources(parsed);
-          return parsed;
-        }
-      }
-    } catch (e) {
-      // ignore and fallthrough to default
+    const response = await fetch(source, { signal: AbortSignal.timeout(10000) });
+    if (!response.ok) throw new Error(`Resource feed returned HTTP ${response.status}.`);
+    const parsed: unknown = await response.json();
+    if (!Array.isArray(parsed) || !parsed.every(isResourceItem)) throw new Error("Resource feed contains invalid items.");
+    if (parsed.length) {
+      await saveResources(parsed);
+      return parsed;
     }
   }
   return DEFAULT_RESOURCES;
