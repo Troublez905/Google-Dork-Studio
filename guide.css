@@ -1,0 +1,31 @@
+.guide-hero { padding: 160px 0 70px; background: radial-gradient(circle at 85% 15%, rgba(255, 212, 0, .15), transparent 30%), linear-gradient(135deg, var(--panel), var(--bg)); border-bottom: 1px solid var(--line); }
+.guide-hero h1 { max-width: 900px; margin: 18px 0; font: 800 clamp(3.3rem, 7vw, 6.4rem)/.9 Rajdhani, sans-serif; letter-spacing: -.045em; text-transform: uppercase; }
+.guide-hero p { max-width: 760px; color: var(--muted); font-size: 1.1rem; }
+.guide-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: start; }
+.guide-content { display: grid; gap: 56px; }
+.guide-content h2 { font: 800 clamp(2rem, 4vw, 3.5rem)/1 Rajdhani, sans-serif; text-transform: uppercase; margin: 0 0 18px; }
+.guide-content h3 { font: 800 1.35rem Rajdhani, sans-serif; text-transform: uppercase; }
+.guide-content p, .guide-content li { color: var(--muted); }
+.warning-card { padding: 28px; border: 1px solid rgba(255, 212, 0, .45); background: linear-gradient(135deg, rgba(255, 212, 0, .11), rgba(255, 157, 0, .03)); }
+.warning-card strong { display: block; color: var(--yellow); font: 800 1rem Rajdhani; letter-spacing: .1em; margin-bottom: 8px; }
+.operator-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.operator-card { padding: 20px; background: var(--panel); border: 1px solid var(--line); }
+.operator-card code, .query-card code { font-family: "JetBrains Mono", monospace; color: var(--yellow); }
+.operator-card p { margin: 7px 0 0; font-size: .93rem; }
+.query-list { display: grid; gap: 14px; }
+.query-card { position: relative; padding: 22px 64px 22px 22px; background: #0b0d0f; border: 1px solid var(--line); overflow: auto; }
+.query-card code { white-space: pre-wrap; }
+.copy-query { position: absolute; right: 12px; top: 12px; padding: 7px 10px; border: 1px solid #34383c; background: #16191c; color: #fff; border-radius: 5px; font: 700 .7rem Rajdhani; cursor: pointer; }
+.workflow-list { counter-reset: guide-step; display: grid; gap: 12px; padding: 0; list-style: none; }
+.workflow-list li { counter-increment: guide-step; padding: 18px 18px 18px 62px; background: var(--panel); border: 1px solid var(--line); position: relative; }
+.workflow-list li::before { content: counter(guide-step); position: absolute; left: 17px; top: 16px; display: grid; place-items: center; width: 30px; height: 30px; background: var(--yellow); color: #08090a; font: 800 .85rem Rajdhani; }
+.guide-aside { position: sticky; top: 104px; padding: 24px; background: var(--panel); border: 1px solid var(--line); }
+.guide-aside h2 { font: 800 1.15rem Rajdhani; text-transform: uppercase; color: var(--yellow); }
+.guide-aside a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+.guide-aside a:hover { color: var(--text); }
+.source-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.source-list a { display: block; padding: 18px; background: var(--panel); border: 1px solid var(--line); font-weight: 700; }
+.source-list a span { display: block; margin-top: 6px; color: var(--muted); font-size: .82rem; font-weight: 400; }
+.source-list a:hover { border-color: rgba(255, 212, 0, .5); }
+@media (max-width: 900px) { .guide-layout { grid-template-columns: 1fr; } .guide-aside { position: static; } .source-list { grid-template-columns: 1fr; } }
+@media (max-width: 620px) { .operator-grid { grid-template-columns: 1fr; } .guide-hero { padding-top: 130px; } .guide-hero h1 { font-size: 3.2rem; } }

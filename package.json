@@ -1,0 +1,19 @@
+{
+  "name": "dorks-va-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "netlify dev --live",
+    "start": "netlify dev",
+    "build": "echo \"Static site — ensure assets are present\""
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.0.10",
+    "@netlify/functions": "^4.2.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

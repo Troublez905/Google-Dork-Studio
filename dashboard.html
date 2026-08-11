@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Owner-only indexed exposure monitoring for Dorks VA.">
+  <meta name="theme-color" content="#070809">
+  <title>Security Monitor | Dorks VA</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Rajdhani:wght@500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+<div class="monitor-shell">
+  <aside class="monitor-sidebar">
+    <a class="monitor-brand" href="/"><span>Dorks VA</span><strong>Monitor</strong></a>
+    <nav class="monitor-nav" aria-label="Dashboard sections">
+      <button class="active" data-view="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg>Overview</button>
+      <button data-view="exposures"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>Exposures</button>
+      <button data-view="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg>Monitor rules</button>
+      <button data-view="alerts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>Alerts</button>
+    </nav>
+    <a class="back-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h5v5M20 4l-9 9M19 13v7H4V5h7"/></svg>Back to site</a>
+    <div class="access-state"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><span>Dashboard access</span><strong id="access-label">Token required</strong></div></div>
+  </aside>
+
+  <main class="monitor-main">
+    <header class="monitor-header">
+      <button class="sidebar-toggle" type="button" aria-label="Toggle dashboard navigation">MENU</button>
+      <div><span>Domain</span><strong id="domain-label">Not configured</strong></div>
+      <div><span>Last scan</span><strong id="last-scan-label">Never</strong></div>
+      <div><span>Monitor status</span><strong class="status-value" id="monitor-status"><i></i>Setup required</strong></div>
+      <button class="run-scan" id="run-scan" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>Run scan</button>
+    </header>
+
+    <div id="notice" class="notice" hidden></div>
+
+    <section class="dashboard-view active" id="view-overview" aria-labelledby="overview-title">
+      <h1 id="overview-title" class="sr-only">Security exposure overview</h1>
+      <div class="metric-strip">
+        <article><span>Open exposures</span><strong class="critical-text" id="metric-open">0</strong><small>Requires review</small></article>
+        <article><span>Newly detected</span><strong class="high-text" id="metric-new">0</strong><small>Latest scan</small></article>
+        <article><span>Resolved</span><strong class="resolved-text" id="metric-resolved">0</strong><small>Marked secured</small></article>
+        <article><span>Monitored queries</span><strong id="metric-queries">0</strong><small id="schedule-label">Daily schedule</small></article>
+      </div>
+
+      <div class="overview-grid">
+        <section class="trend-panel panel"><div class="panel-heading"><h2>Exposure trend</h2><span>Last 30 scans</span></div><canvas id="trend-chart" width="900" height="330" aria-label="Exposure trend chart"></canvas><div class="chart-legend"><span class="open-dot">Open exposures</span><span class="new-dot">Newly detected</span><span class="resolved-dot">Resolved</span></div></section>
+        <section class="severity-panel panel"><div class="panel-heading"><h2>Severity breakdown</h2></div><div class="severity-visual"><div class="severity-ring" id="severity-ring"><span><strong id="severity-total">0</strong>Open</span></div><ul id="severity-list"></ul></div></section>
+        <section class="latest-panel panel"><div class="panel-heading"><h2>Latest matches</h2><button class="text-button" type="button" data-view="exposures">View all</button></div><div class="table-wrap"><table><thead><tr><th>First seen</th><th>Type</th><th>Title / URL</th><th>Severity</th><th>Status</th></tr></thead><tbody id="latest-body"></tbody></table></div><div class="empty-state" id="latest-empty">No indexed exposures recorded yet.</div></section>
+        <section class="rules-summary panel"><div class="panel-heading"><h2>Monitoring scope</h2><button class="text-button" type="button" data-view="rules">Edit</button></div><dl><div><dt>File types</dt><dd id="summary-file-types">—</dd></div><div><dt>Keywords</dt><dd id="summary-keywords">—</dd></div><div><dt>Admin paths</dt><dd id="summary-admin-paths">—</dd></div></dl></section>
+        <section class="alerts-summary panel"><div class="panel-heading"><h2>Alert channels</h2></div><div class="service-row"><span>Slack</span><strong id="slack-state">Not configured</strong></div><div class="service-row"><span>Email</span><strong id="email-state">Not configured</strong></div><div class="service-row"><span>Search provider</span><strong id="provider-state">Not configured</strong></div></section>
+      </div>
+    </section>
+
+    <section class="dashboard-view" id="view-exposures" aria-labelledby="exposures-title">
+      <div class="view-heading"><div><h1 id="exposures-title">Indexed exposures</h1><p>Search metadata only. The monitor never opens or downloads matched assets.</p></div><label>Filter<select id="status-filter"><option value="all">All statuses</option><option value="open">Open</option><option value="resolved">Resolved</option></select></label></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>First seen</th><th>Type</th><th>Title / URL</th><th>Severity</th><th>Status</th><th>Action</th></tr></thead><tbody id="exposures-body"></tbody></table></div><div class="empty-state" id="exposures-empty">No exposures match this filter.</div></div>
+    </section>
+
+    <section class="dashboard-view" id="view-rules" aria-labelledby="rules-title">
+      <div class="view-heading"><div><h1 id="rules-title">Monitor rules</h1><p>Every generated query is restricted to the authorized hostname below.</p></div></div>
+      <form id="rules-form" class="rules-form panel">
+        <label>Authorized hostname<input id="domain-input" name="domain" required placeholder="example.com" autocomplete="off"></label>
+        <div class="form-columns"><label>Sensitive keywords<textarea id="keywords-input" rows="8" placeholder="One keyword per line"></textarea><small>Up to 30 terms. Use organizational labels, not real secret values.</small></label><label>File types<textarea id="filetypes-input" rows="8" placeholder="env&#10;sql&#10;bak"></textarea><small>Extensions only; dots and wildcards are normalized.</small></label><label>Admin URL terms<textarea id="adminpaths-input" rows="8" placeholder="admin&#10;login&#10;dashboard"></textarea><small>Matched with the <code>inurl:</code> operator.</small></label></div>
+        <div class="query-preview"><h2>Generated queries</h2><ol id="query-list"></ol></div>
+        <div class="form-actions"><button class="secondary-action" type="reset">Reset</button><button class="primary-action" type="submit">Save monitoring rules</button></div>
+      </form>
+    </section>
+
+    <section class="dashboard-view" id="view-alerts" aria-labelledby="alerts-title">
+      <div class="view-heading"><div><h1 id="alerts-title">Alert delivery</h1><p>Credentials remain server-side in Netlify environment variables and are never returned to this dashboard.</p></div></div>
+      <div class="alert-config-grid"><article class="panel"><h2>Slack</h2><p>Posts a message through an incoming webhook whenever a new match is recorded.</p><strong id="slack-detail">Not configured</strong><code>SLACK_WEBHOOK_URL</code></article><article class="panel"><h2>Email</h2><p>Sends a summarized exposure table through Resend with an idempotency key per scan.</p><strong id="email-detail">Not configured</strong><code>RESEND_API_KEY · ALERT_EMAIL_TO · ALERT_EMAIL_FROM</code></article><article class="panel"><h2>Search provider</h2><p>Use Serper for new setups or legacy Google CSE if your account already has API access.</p><strong id="provider-detail">Not configured</strong><code>SERPER_API_KEY or GOOGLE_API_KEY · GOOGLE_CX</code></article></div>
+    </section>
+  </main>
+</div>
+
+<div class="auth-overlay" id="auth-overlay">
+  <form class="auth-dialog" id="auth-form"><img src="/assets/logo.svg" alt="Dorks VA"><h1>Owner access</h1><p>Enter the private dashboard token configured in Netlify. It stays in this browser tab and is never written to the site.</p><label>Dashboard token<input id="token-input" type="password" autocomplete="current-password" minlength="24" required></label><p class="auth-error" id="auth-error" role="alert"></p><button type="submit">Unlock dashboard</button><a href="/">Return to public site</a></form>
+</div>
+<script src="/dashboard.js?v=2"></script>
+</body>
+</html>
