@@ -1,4 +1,4 @@
-# Dorks VA — Professional Website
+# Google Dorks Studio — Professional WebApp / Desktop And Mobile App Available.
 
 A static, responsive product website for Vercel or Netlify.
 
