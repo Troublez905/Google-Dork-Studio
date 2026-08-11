@@ -1,0 +1,85 @@
+name: Build Releases (Electron & Capacitor)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      has-electron: ${{ steps.check-electron.outputs.has_electron }}
+      has-capacitor: ${{ steps.check-capacitor.outputs.has_capacitor }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Check for Electron
+        id: check-electron
+        run: |
+          if jq -e '.scripts.build // "" | test("electron")' package.json >/dev/null 2>&1; then echo "has_electron=true" > props; else echo "has_electron=false" > props; fi
+          cat props
+        shell: bash
+        outputs:
+          has_electron: ${{ steps.check-electron.outputs.has_electron }}
+      - name: Check for Capacitor
+        id: check-capacitor
+        run: |
+          if jq -e '.dependencies["@capacitor/core"]' package.json >/dev/null 2>&1 || jq -e '.devDependencies["@capacitor/core"]' package.json >/dev/null 2>&1; then echo "has_capacitor=true" > props2; else echo "has_capacitor=false" > props2; fi
+          cat props2
+        shell: bash
+        outputs:
+          has_capacitor: ${{ steps.check-capacitor.outputs.has_capacitor }}
+
+  build-electron:
+    needs: prepare
+    if: needs.prepare.outputs.has-electron == 'has_electron=true' || needs.prepare.outputs.has-electron == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build web assets
+        run: npm run build --if-present
+      - name: Build Electron (placeholder)
+        run: |
+          echo "Electron build step — replace this with your actual build command, e.g. npm run build:electron or electron-builder --win --x64"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-artifacts
+          path: release/**
+
+  build-capacitor:
+    needs: prepare
+    if: needs.prepare.outputs.has-capacitor == 'has_capacitor=true' || needs.prepare.outputs.has-capacitor == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build web assets
+        run: npm run build --if-present
+      - name: Add Android and build (placeholder)
+        run: |
+          echo "Capacitor/Android build placeholder. Replace with: npx cap add android && npx cap copy android && ./gradlew assembleRelease in android/"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: capacitor-artifacts
+          path: android/app/build/outputs/**
+
+# Notes:
+# - This workflow scaffolds build steps and uploads built artifacts. It intentionally uses placeholder commands for platform-specific builds because signing credentials and build config vary by project.
+# - Add repository secrets for code signing (Windows certificate, Android keystore) and configure the exact build commands in package.json or replace the placeholders above.

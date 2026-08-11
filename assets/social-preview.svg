@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+<linearGradient id="bg" x1="0" x2="1"><stop stop-color="#050607"/><stop offset=".72" stop-color="#111315"/><stop offset="1" stop-color="#ffd400"/></linearGradient>
+<filter id="s"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-opacity=".45"/></filter>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<g opacity=".18" stroke="#ffd400"><path d="M0 105h1200M0 210h1200M0 315h1200M0 420h1200M0 525h1200"/><path d="M150 0v630M300 0v630M450 0v630M600 0v630M750 0v630M900 0v630M1050 0v630"/></g>
+<g transform="translate(95 105)" filter="url(#s)">
+<rect width="130" height="130" rx="28" fill="#08090a" stroke="#ffd400" stroke-width="4"/>
+<path d="M35 35h53c20 0 32 12 32 31s-12 31-32 31H65l-17 20H22l22-26h41c8 0 13-5 13-13s-5-13-13-13H35z" fill="#ffd400"/>
+<path d="M37 52h31L56 67H26z" fill="#fff"/>
+</g>
+<text x="270" y="180" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="86" font-weight="900">GOOGLE DORKS</text>
+<text x="270" y="262" fill="#ffd400" font-family="Arial,Helvetica,sans-serif" font-size="58" font-weight="900">FOR VULNERABILITY ASSESSMENT</text>
+<text x="96" y="380" fill="#d6d9dc" font-family="Arial,Helvetica,sans-serif" font-size="34">Local query generation for authorized security research.</text>
+<g transform="translate(96 450)">
+<rect width="420" height="72" rx="14" fill="#fff"/>
+<text x="28" y="47" fill="#111" font-family="Arial,Helvetica,sans-serif" font-size="28">site:example.com inurl:admin</text>
+</g>
+<text x="96" y="575" fill="#ffd400" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700">WINDOWS • ANDROID • OFFLINE-FIRST</text>
+</svg>
